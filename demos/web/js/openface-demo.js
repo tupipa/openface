@@ -233,15 +233,18 @@ function createSocket(address, name) {
 }
 
 function umSuccess(stream) {
+    // webcam_stream = stream;
+
     if (vid.mozCaptureStream) {
         vid.mozSrcObject = stream;
     } else {
         vid.src = (window.URL && window.URL.createObjectURL(stream)) ||
             stream;
     }
-    var statusButton=document.getElementById("StatusButton")
+        
+    // var statusButton=document.getElementById("StatusButton")
+    // statusButton.innerHTML = msg_webcam + "vid.src: " + vid.src
 
-    statusButton.innerHTML = msg_webcam + "vid.src: " + vid.src
     vid.play();
     vidReady = true;
     sendFrameLoop();
@@ -264,121 +267,126 @@ function addPersonCallback(el) {
     redrawPeople();
 }
 
-function initCameraMode(){
+// function initCameraMode(){
 
-    var statusButton=document.getElementById("StatusButton")
-    statusButton.innerHTML = msg_webcam
+//     var statusButton=document.getElementById("StatusButton")
+//     statusButton.innerHTML = msg_webcam
 
-    if (navigator.getUserMedia) {
-        var videoSelector = {video : true};
-        navigator.getUserMedia(videoSelector, umSuccess, function() {
-            alert("Error fetching video from webcam");
-        });
-    } else {
-        alert("No webcam detected.");
-    }
+//     if (navigator.getUserMedia) {
+//         var videoSelector = {video : true};
+//         navigator.getUserMedia(videoSelector, umSuccess, function() {
+//             alert("Error fetching video from webcam");
+//         });
+//     } else {
+//         alert("No webcam detected.");
+//     }
     
-    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
-    //  $("#addPersonBtn").click(addPersonCallback);
-    //  $("#addPersonTxt").pressEnter(addPersonCallback);
-    //  $("#trainingChk").change(trainingChkCallback);
-    //  $("#viewTSNEBtn").click(viewTSNECallback);
-    //  $("#localAutoTestButton").click(localAutoTestCallback);
+//     //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
+//     //  $("#addPersonBtn").click(addPersonCallback);
+//     //  $("#addPersonTxt").pressEnter(addPersonCallback);
+//     //  $("#trainingChk").change(trainingChkCallback);
+//     //  $("#viewTSNEBtn").click(viewTSNECallback);
+//     //  $("#localAutoTestButton").click(localAutoTestCallback);
      
-    //  if (socket_connected){
-    //     socket.close();
-    //  }
+//     //  if (socket_connected){
+//     //     socket.close();
+//     //  }
 
-    //  redrawPeople();
-    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
-    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
-    //  socket_connected = true;
-}
+//     //  redrawPeople();
+//     //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+//     //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
+//     //  socket_connected = true;
+// }
 
 
 
-function playSelectedFile (event) {
+// function playSelectedFile (event) {
 
-	// 'use strict'
-    console.log(event.target.files);
-    var statusButton=document.getElementById("StatusButton")
-    statusButton.innerHTML = msg_reading_file
+// 	// 'use strict'
+//     console.log(event.target.files);
+//     var statusButton=document.getElementById("StatusButton")
+//     statusButton.innerHTML = msg_reading_file
 
-    var file = document.getElementById("theFileInput").files[0]
-    var type = file.type
-    // var videoNode = document.querySelector('video')
-    var canPlay = vid.canPlayType(type)
-    if (canPlay === '') canPlay = 'no'
+//     var file = document.getElementById("theFileInput").files[0]
+//     var type = file.type
+//     // var videoNode = document.querySelector('video')
+//     var canPlay = vid.canPlayType(type)
+//     if (canPlay === '') canPlay = 'no'
 
-    var isError = canPlay === 'no';
+//     var isError = canPlay === 'no';
 
-    if (isError) {
-        return
-    }
+//     if (isError) {
+//         return
+//     }
 
-    var URL = window.URL || window.webkitURL;
+//     var URL = window.URL;
 
-    vid.src = URL.createObjectURL(file)
+//     vid.src = URL.createObjectURL(file)
 
-    var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + vid.src
+//     var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + vid.src
     
-    document.getElementById("StatusButton").innerHTML = message
+//     document.getElementById("StatusButton").innerHTML = message
 
-    vid.play();
-    vidReady = true;
-    sendFrameLoop();
+//     vid.play();
+//     vidReady = true;
+//     sendFrameLoop();
     
-     // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
-     if (socket_connected){
-        socket.close();
-     }
-    redrawPeople();
-    createSocket("wss://" + window.location.hostname + ":9000", "Local");
-    socket_connected = true;
+//      // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+//     //  if (socket_connected){
+//     //     socket.close();
+//     //  }
+//     redrawPeople();
+//     // createSocket("wss://" + window.location.hostname + ":9000", "Local");
+//     // socket_connected = true;
 
-}
+// }
 
-function initLocalFileMode(){
+// function initLocalFileMode(){
 
-    var statusButton=document.getElementById("StatusButton");
-    statusButton.innerHTML = msg_select_file;
+//     var statusButton=document.getElementById("StatusButton");
+//     statusButton.innerHTML = msg_select_file;
      
-    var inputNode = document.getElementById("theFileInput")
-    inputNode.addEventListener('change', playSelectedFile, false)
+//     var inputNode = document.getElementById("theFileInput")
+//     inputNode.addEventListener('change', playSelectedFile, false)
+
+//     // if(webcam_on){
+//     //     var track = webcam_stream.getTracks()[0];
+//     //     track.stop();
+//     // }
     
-    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
-    //  $("#addPersonBtn").click(addPersonCallback);
-    //  $("#addPersonTxt").pressEnter(addPersonCallback);
-    //  $("#trainingChk").change(trainingChkCallback);
-    //  $("#viewTSNEBtn").click(viewTSNECallback);
-    //  $("#localAutoTestButton").click(localAutoTestCallback);
+//     //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
+//     //  $("#addPersonBtn").click(addPersonCallback);
+//     //  $("#addPersonTxt").pressEnter(addPersonCallback);
+//     //  $("#trainingChk").change(trainingChkCallback);
+//     //  $("#viewTSNEBtn").click(viewTSNECallback);
+//     //  $("#localAutoTestButton").click(localAutoTestCallback);
 
-    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
-    //  if (socket_connected){
-    //      socket.close();
-    //  }
-    //  redrawPeople();
-    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
-    //  socket_connected = true;
+//     //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+//     //  if (socket_connected){
+//     //      socket.close();
+//     //  }
+//      redrawPeople();
+//     //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
+//     //  socket_connected = true;
 
-}
+// }
 
-function localAutoTestCallback() {
+// function localAutoTestCallback() {
 
-    var buttonTest=document.getElementById("localAutoTestButton");
-    if (autoTestEnabled == 1){
-        buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
-        autoTestEnabled = 0;
-        // location.reload();
-        initCameraMode();
+//     var buttonTest=document.getElementById("localAutoTestButton");
+//     if (autoTestEnabled == 1){
+//         buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
+//         autoTestEnabled = 0;
+//         // location.reload();
+//         initCameraMode();
 
-    }else{
-        buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
-        autoTestEnabled = 1;
-        initLocalFileMode();
-    }
+//     }else{
+//         buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
+//         autoTestEnabled = 1;
+//         initLocalFileMode();
+//     }
 
-}
+// }
 
 function trainingChkCallback() {
     training = $("#trainingChk").prop('checked');
