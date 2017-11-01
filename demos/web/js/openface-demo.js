@@ -331,13 +331,7 @@ function playSelectedFile (event) {
     vidReady = true;
     sendFrameLoop();
     
-     // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
-    //  if (socket_connected){
-    //     socket.close();
-    //  }
     redrawPeople();
-    // createSocket("wss://" + window.location.hostname + ":9000", "Local");
-    // socket_connected = true;
 
 }
 
@@ -349,26 +343,13 @@ function initLocalFileMode(){
     var inputNode = document.getElementById("theFileInput")
     inputNode.addEventListener('change', playSelectedFile, false)
 
-    // if(webcam_on){
-    //     var track = webcam_stream.getTracks()[0];
-    //     track.stop();
-    // }
+    if(webcam_on){
+        var track = webcam_stream.getTracks()[0];
+        track.stop();
+    }
     
-    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
-    //  $("#addPersonBtn").click(addPersonCallback);
-    //  $("#addPersonTxt").pressEnter(addPersonCallback);
-    //  $("#trainingChk").change(trainingChkCallback);
-    //  $("#viewTSNEBtn").click(viewTSNECallback);
-    //  $("#localAutoTestButton").click(localAutoTestCallback);
-
-    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
-    //  if (socket_connected){
-    //      socket.close();
-    //  }
      redrawPeople();
-    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
-    //  socket_connected = true;
-
+     
 }
 
 function localAutoTestCallback() {
