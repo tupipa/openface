@@ -239,6 +239,9 @@ function umSuccess(stream) {
         vid.src = (window.URL && window.URL.createObjectURL(stream)) ||
             stream;
     }
+    var statusButton=document.getElementById("StatusButton")
+
+    statusButton.innerHTML = msg_webcam + "vid.src: " + vid.src
     vid.play();
     vidReady = true;
     sendFrameLoop();
@@ -259,6 +262,122 @@ function addPersonCallback(el) {
         socket.send(JSON.stringify(msg));
     }
     redrawPeople();
+}
+
+function initCameraMode(){
+
+    var statusButton=document.getElementById("StatusButton")
+    statusButton.innerHTML = msg_webcam
+
+    if (navigator.getUserMedia) {
+        var videoSelector = {video : true};
+        navigator.getUserMedia(videoSelector, umSuccess, function() {
+            alert("Error fetching video from webcam");
+        });
+    } else {
+        alert("No webcam detected.");
+    }
+    
+    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
+    //  $("#addPersonBtn").click(addPersonCallback);
+    //  $("#addPersonTxt").pressEnter(addPersonCallback);
+    //  $("#trainingChk").change(trainingChkCallback);
+    //  $("#viewTSNEBtn").click(viewTSNECallback);
+    //  $("#localAutoTestButton").click(localAutoTestCallback);
+     
+    //  if (socket_connected){
+    //     socket.close();
+    //  }
+
+    //  redrawPeople();
+    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
+    //  socket_connected = true;
+}
+
+
+
+function playSelectedFile (event) {
+
+	// 'use strict'
+    console.log(event.target.files);
+    var statusButton=document.getElementById("StatusButton")
+    statusButton.innerHTML = msg_reading_file
+
+    var file = document.getElementById("theFileInput").files[0]
+    var type = file.type
+    // var videoNode = document.querySelector('video')
+    var canPlay = vid.canPlayType(type)
+    if (canPlay === '') canPlay = 'no'
+
+    var isError = canPlay === 'no';
+
+    if (isError) {
+        return
+    }
+
+    var URL = window.URL || window.webkitURL;
+
+    vid.src = URL.createObjectURL(file)
+
+    var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + vid.src
+    
+    document.getElementById("StatusButton").innerHTML = message
+
+    vid.play();
+    vidReady = true;
+    sendFrameLoop();
+    
+     // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+     if (socket_connected){
+        socket.close();
+     }
+    redrawPeople();
+    createSocket("wss://" + window.location.hostname + ":9000", "Local");
+    socket_connected = true;
+
+}
+
+function initLocalFileMode(){
+
+    var statusButton=document.getElementById("StatusButton");
+    statusButton.innerHTML = msg_select_file;
+     
+    var inputNode = document.getElementById("theFileInput")
+    inputNode.addEventListener('change', playSelectedFile, false)
+    
+    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
+    //  $("#addPersonBtn").click(addPersonCallback);
+    //  $("#addPersonTxt").pressEnter(addPersonCallback);
+    //  $("#trainingChk").change(trainingChkCallback);
+    //  $("#viewTSNEBtn").click(viewTSNECallback);
+    //  $("#localAutoTestButton").click(localAutoTestCallback);
+
+    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+    //  if (socket_connected){
+    //      socket.close();
+    //  }
+    //  redrawPeople();
+    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
+    //  socket_connected = true;
+
+}
+
+function localAutoTestCallback() {
+
+    var buttonTest=document.getElementById("localAutoTestButton");
+    if (autoTestEnabled == 1){
+        buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
+        autoTestEnabled = 0;
+        // location.reload();
+        initCameraMode();
+
+    }else{
+        buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
+        autoTestEnabled = 1;
+        initLocalFileMode();
+    }
+
 }
 
 function trainingChkCallback() {

@@ -29,6 +29,18 @@ limitations under the License.
     <body>
         <div class="container">
             <div class="header">
+                <div>
+                    <button class="btn btn-default" type="button"
+                                id="localAutoTestButton"> 
+                    Auto Test Enabled. Click to Disable
+                    </button>
+                    Status: 
+                    <button class="btn btn-default" type="button"
+                                id="StatusButton"> 
+                    Loading Pages...
+                    </button>
+                </div>
+
                 <ul class='tabs'>
                     <li class='tab-link' data-tab='tab-preview'
                         id='tab-preview-button'>
@@ -48,6 +60,8 @@ limitations under the License.
                 </div>
             </div>
             <div class="content">
+                <input id="theFileInput" type="file" accept="video/*" />
+                <!-- <video id="videoNode" controls autoplay></video> -->
                 <h2>People in Video</h2>
                 <div id="peopleInVideo"></div>
 
@@ -214,16 +228,23 @@ limitations under the License.
      var numNulls, sentTimes, receivedTimes;
      var socket, socketName;
 
+     var autoTestEnabled = 0;
+     var msg_select_file = "Need to select a file to read.";
+     var msg_webcam = "webcam mode";
+     var msg_reading_file = "Reading images from file...";
+     var socket_connected = false;
+
      $("#trainingChk").bootstrapToggle('off');
      $("#peopleInVideo").html("");
 
-     if (navigator.getUserMedia) {
-         var videoSelector = {video : true};
-         navigator.getUserMedia(videoSelector, umSuccess, function() {
-             alert("Error fetching video from webcam");
-         });
-     } else {
-         alert("No webcam detected.");
+     var buttonTest=document.getElementById("localAutoTestButton");
+
+     if (autoTestEnabled == 1){
+        buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
+        initLocalFileMode();
+     }else{
+        buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
+        initCameraMode();
      }
 
      $("#serverBtn.btn-group > .btn").click(changeServerCallback);
@@ -231,9 +252,26 @@ limitations under the License.
      $("#addPersonTxt").pressEnter(addPersonCallback);
      $("#trainingChk").change(trainingChkCallback);
      $("#viewTSNEBtn").click(viewTSNECallback);
+     $("#localAutoTestButton").click(localAutoTestCallback);
+     
+     if (socket_connected){
+        socket.close();
+     }
 
      redrawPeople();
      // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
      createSocket("wss://" + window.location.hostname + ":9000", "Local");
+     socket_connected = true;
+     
+    //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
+    //  $("#addPersonBtn").click(addPersonCallback);
+    //  $("#addPersonTxt").pressEnter(addPersonCallback);
+    //  $("#trainingChk").change(trainingChkCallback);
+    //  $("#viewTSNEBtn").click(viewTSNECallback);
+    //  $("#localAutoTestButton").click(localAutoTestCallback);
+
+    //  redrawPeople();
+    //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
+    //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
     </script>
 </html>

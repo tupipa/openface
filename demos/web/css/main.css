@@ -93,3 +93,8 @@ ul.tabs li.current{
 .tab-content.current{
     display: inherit;
 }
+
+/* video, input {
+    display: block;
+} */
+
