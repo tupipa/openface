@@ -292,7 +292,7 @@ function initCameraMode(){
     //     socket.close();
     //  }
 
-    //  redrawPeople();
+     redrawPeople();
     //  // createSocket("wss://facerec.cmusatyalab.org:9000", "CMU");
     //  createSocket("wss://" + window.location.hostname + ":9000", "Local");
     //  socket_connected = true;
@@ -349,10 +349,12 @@ function initLocalFileMode(){
     }
     
      redrawPeople();
-     
+
 }
 
 function localAutoTestCallback() {
+
+    vidReady = false;
 
     var buttonTest=document.getElementById("localAutoTestButton");
     if (autoTestEnabled == 1){
