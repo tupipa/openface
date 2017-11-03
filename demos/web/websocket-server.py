@@ -118,6 +118,8 @@ class OpenFaceServerProtocol(WebSocketServerProtocol):
             self.loadState(msg['images'], msg['training'], msg['people'])
         elif msg['type'] == "NULL":
             self.sendMessage('{"type": "NULL"}')
+        elif msg['type'] == "CLIENTPING":
+            self.sendMessage('{"type": "SERVERPONG"}')
         elif msg['type'] == "FRAME":
             self.processFrame(msg['dataURL'], msg['identity'])
             self.sendMessage('{"type": "PROCESSED"}')
