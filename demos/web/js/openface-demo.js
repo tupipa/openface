@@ -165,9 +165,11 @@ function searchNewServer(){
         totalTry++
         console.log("Now totalTry: " + totalTry)
         serverIndex = (currentServerIndex + totalTry) % serverlist.length
-
         console.log("server Index: " + serverIndex + ". server: " + serverlist[serverIndex] )
 
+
+        window.location.hostname = serverlist[serverIndex]
+        window.localtion.reload();
         redrawPeople();
         createSocket("wss://" + serverlist[serverIndex] + ":9000", "New");
     }
@@ -410,30 +412,36 @@ function playPredefinedCheck(){
         }
     }
 }
+
 function playLocalFileURL(){
-        // first stop webcam
-        if(autoTestEnabled == 0 && webcam_on){
-            var track = webcam_stream.getTracks()[0];
-            track.stop();
-            webcam_on = false;
-        }
-        // var file = window.open(file_url)
-        // var type = file.type
-        var type = 'video/mp4'
-        var canPlay = 'yes'
+    // first stop webcam
+    if(webcam_on){
+        var track = webcam_stream.getTracks()[0];
+        track.stop();
+        webcam_on = false;
+    }
+    // var file = window.open(file_url)
+    // var type = file.type
+    var type = 'video/mp4'
+    var canPlay = 'yes'
     
-        vid.src = autoTestFile
 
-        var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + vid.src
-        
-        document.getElementById("StatusButton").innerHTML = message
-        
-        vidReady = true;
+    // var URL = window.URL;
+    // var fileObj = new File ([""], autoTestFile);
 
-        vid.play();
-        sendFrameLoop();
-        
-        redrawPeople();
+    // vid.src = URL.createObjectURL(fileObj);
+    vid.src = autoTestFile
+
+    var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + autoTestFile  + "<" + vid.src + ">"
+    
+    document.getElementById("StatusButton").innerHTML = message
+    
+    vidReady = true;
+
+    vid.play();
+    sendFrameLoop();
+    
+    redrawPeople();
 }
 function playSelectedFile (event) {
 

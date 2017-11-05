@@ -25,6 +25,7 @@ limitations under the License.
         <link href="vendor/css/bootstrap-toggle.min.css" rel="stylesheet">
         <link href="vendor/css/bootstrap-dialog.min.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
+        <!-- <header name = "Access-Control-Allow-Origin" value = "http://localhost:8888/test.mp4" /> -->
     </head>
     <body>
         <div class="container">
@@ -51,7 +52,7 @@ limitations under the License.
                     </li>
                 </ul>
                 <div id='tab-preview' class='tab-content'>
-                    <video id="videoel" width="400" height="300"
+                    <video id="videoel" width="400" height="300" crossorigin="anonymous"
                            preload="auto" loop></video>
                 </div>
                 <div id='tab-annotated' class='tab-content current'>
@@ -239,7 +240,8 @@ limitations under the License.
      var searchInterval = null;
 
      var serverConnectionError = false;
-     var serverlist = ["localhost", "192.168.111.198", "192.168.111.197"];
+    //  var serverlist = ["localhost", "192.168.111.198", "192.168.111.197"];
+     var serverlist = ["192.168.111.198", "192.168.111.197"];
      var currentServerIndex = 0;
 
      var autoTestEnabled = 1;
