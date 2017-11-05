@@ -64,6 +64,7 @@ function sendFrameLoop() {
         var cc = canvas.getContext('2d');
         cc.drawImage(vid, 0, 0, vid.width, vid.height);
         var apx = cc.getImageData(0, 0, vid.width, vid.height);
+        apx.crossOrigin = "Anonymous";
 
         var dataURL = canvas.toDataURL('image/jpeg', 0.6)
 
@@ -363,7 +364,7 @@ function initCameraMode(){
     } else {
         alert("No webcam detected.");
     }
-    
+    webcam_on = true;
     //  $("#serverBtn.btn-group > .btn").click(changeServerCallback);
     //  $("#addPersonBtn").click(addPersonCallback);
     //  $("#addPersonTxt").pressEnter(addPersonCallback);
@@ -381,8 +382,59 @@ function initCameraMode(){
     //  socket_connected = true;
 }
 
+function playPredefinedCheck(){
 
+    vidReady = false;
 
+    predefineEnabled = $("#predefinedChk").prop('checked');
+
+    if (predefineEnabled) {
+
+        // remove the listener if play selected file input.
+        // if (autoTestEnabled == 1){
+        //     var inputNode = document.getElementById("theFileInput")
+        //     inputNode.removeEventListener('change', playSelectedFile)
+        // }
+
+        playLocalFileURL()
+
+    } else {
+        // play video according to autotestEnabled.
+         if (autoTestEnabled == 0){
+            buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
+            initCameraMode();
+
+        }else if (autoTestEnabled == 1){
+            buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
+            initLocalFileMode();
+        }
+    }
+}
+function playLocalFileURL(){
+        // first stop webcam
+        if(autoTestEnabled == 0 && webcam_on){
+            var track = webcam_stream.getTracks()[0];
+            track.stop();
+            webcam_on = false;
+        }
+        // var file = window.open(file_url)
+        // var type = file.type
+        var type = 'video/mp4'
+        var canPlay = 'yes'
+    
+        vid.src = autoTestFile
+
+        var message = 'Playing video type "' + type + '": ' + canPlay + ". file: " + vid.src
+        
+        document.getElementById("StatusButton").innerHTML = message
+        
+        vidReady = true;
+
+        vid.play();
+        sendFrameLoop();
+        
+        redrawPeople();
+}
 function playSelectedFile (event) {
 
 	// 'use strict'
@@ -429,6 +481,7 @@ function initLocalFileMode(){
     if(webcam_on){
         var track = webcam_stream.getTracks()[0];
         track.stop();
+        webcam_on = false;
     }
     
      redrawPeople();
@@ -446,10 +499,17 @@ function localAutoTestCallback() {
         // location.reload();
         initCameraMode();
 
-    }else{
+    }else if (autoTestEnabled == 0 ) {
         buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
         autoTestEnabled = 1;
-        initLocalFileMode();
+            
+        predefineEnabled = $("#predefinedChk").prop('checked');
+
+        if (predefineEnabled) {
+             playPredefinedCheck();
+        }else{
+            initLocalFileMode();
+        }
     }
 
 }

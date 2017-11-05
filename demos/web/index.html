@@ -59,6 +59,10 @@ limitations under the License.
                 </div>
             </div>
             <div class="content">
+                <h2>Use Predefined Local File (/home/smeller/test.mp4)
+                    <input type="checkbox" checked data-toggle="toggle"
+                           id="predefinedChk">
+                </h2>
                  <input id="theFileInput" type="file" accept="video/*" /> 
                 <!-- <video id="videoNode" controls autoplay></video> -->
                 <h2>People in Video</h2>
@@ -239,12 +243,17 @@ limitations under the License.
      var currentServerIndex = 0;
 
      var autoTestEnabled = 1;
+     var predefineEnabled = true;
+    //  var autoTestFile = 'file:///home/smeller/test/test.mp4';
+    var autoTestFile = 'http://localhost:8888/test.mp4';
+
      var msg_select_file = "Need to select a file to read.";
+     var msg_preselected = "Use predefined file: " + autoTestFile;
      var msg_webcam = "webcam mode";
      var msg_reading_file = "Reading images from file...";
      var socket_connected = false;
      var webcam_stream;
-     var webcam_on = false;
+     var webcam_on = false;  // can be replace by webcam_stream.active
 
      $("#trainingChk").bootstrapToggle('off');
      $("#peopleInVideo").html("");
@@ -252,14 +261,25 @@ limitations under the License.
      var buttonTest=document.getElementById("localAutoTestButton");
 
      if (autoTestEnabled == 1){
+
         buttonTest.innerHTML = "Auto Test Enabled. Click to Disable";
         // initLocalFileMode();
         var statusButton=document.getElementById("StatusButton");
-        statusButton.innerHTML = msg_select_file;
-        
-        var inputNode = document.getElementById("theFileInput")
-        inputNode.addEventListener('change', playSelectedFile, false)
-     }else{
+
+
+        if (predefineEnabled){
+
+            statusButton.innerHTML = msg_preselected;
+            playPredefinedCheck();
+
+        }else{
+            statusButton.innerHTML = msg_select_file;
+            var inputNode = document.getElementById("theFileInput")
+            inputNode.addEventListener('change', playSelectedFile, false)
+        }
+     }else if (autoTestEnabled == 0) {
+        predefineEnabled = false;
+
         buttonTest.innerHTML = "Auto Test Disabled. Click to Enable";
         // initCameraMode();
         var statusButton=document.getElementById("StatusButton")
@@ -274,12 +294,14 @@ limitations under the License.
             alert("No webcam detected.");
         }
         webcam_on = true;
+
      }
 
      $("#serverBtn.btn-group > .btn").click(changeServerCallback);
      $("#addPersonBtn").click(addPersonCallback);
      $("#addPersonTxt").pressEnter(addPersonCallback);
      $("#trainingChk").change(trainingChkCallback);
+     $("#predefinedChk").change(playPredefinedCheck)
      $("#viewTSNEBtn").click(viewTSNECallback);
      $("#localAutoTestButton").click(localAutoTestCallback);
      
