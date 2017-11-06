@@ -167,6 +167,8 @@ function searchNewServer(){
         serverIndex = (currentServerIndex + totalTry) % serverlist.length
         console.log("server Index: " + serverIndex + ". server: " + serverlist[serverIndex] )
 
+        window.location.hostname = serverlist[serverIndex]
+        
         redrawPeople();
         createSocket("wss://" + serverlist[serverIndex] + ":9000", serverlist[serverIndex]);
         
@@ -175,7 +177,6 @@ function searchNewServer(){
         console.log("! ! cannot find any available server.");
     }else{
 
-        window.location.hostname = serverlist[serverIndex]
         // window.localtion.reload();
         currentServerIndex = serverIndex
         console.log("!! find a new server: " + serverlist[currentServerIndex])
