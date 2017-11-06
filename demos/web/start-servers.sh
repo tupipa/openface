@@ -43,6 +43,11 @@ printf "WebSocket Server: Logging to '%s'\n\n" $WEBSOCKET_LOG
 python2 simpleSSLServer.py $HTTP_PORT &> /dev/null &
 
 cd ../../ # Root OpenFace directory.
+
+# pull the lastest repo
+git pull
+
+# start websocket server.
 ./demos/web/websocket-server.py --port $WEBSOCKET_PORT 2>&1 | tee $WEBSOCKET_LOG &
 
 wait
