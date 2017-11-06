@@ -158,10 +158,10 @@ function searchNewServer(){
     
     var serverIndex = 0
     var totalTry = 0;
-    if (window.localtion.hostname=='192.168.111.197'){
+    if (window.location.hostname=='192.168.111.197'){
         currentServerIndex = 1
     }
-    
+
     while (serverConnectionError ){
         if (totalTry >= serverlist.length) {
             break 
