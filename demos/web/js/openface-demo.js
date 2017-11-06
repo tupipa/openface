@@ -158,11 +158,14 @@ function searchNewServer(){
     
     var serverIndex = 0
     var totalTry = 0;
+    if (window.localtion.hostname=='192.168.111.197'){
+        currentServerIndex = 1
+    }
+    
     while (serverConnectionError ){
         if (totalTry >= serverlist.length) {
             break 
         }
-        totalTry++
         console.log("Now totalTry: " + totalTry)
         serverIndex = (currentServerIndex + totalTry) % serverlist.length
         console.log("server Index: " + serverIndex + ". server: " + serverlist[serverIndex] )
@@ -172,6 +175,7 @@ function searchNewServer(){
         redrawPeople();
         createSocket("wss://" + serverlist[serverIndex] + ":9000", serverlist[serverIndex]);
         
+        totalTry++
     }
     if (serverConnectionError){
         console.log("! ! cannot find any available server.");
