@@ -216,7 +216,7 @@ function pingPongTimeoutFunction (){
     serverConnectionError=true
     searchNewServer()
     if (! searchInterval){
-        searchInterval = setInterval (searchNewServer, 5000)
+        searchInterval = setInterval (searchNewServer, searchIntervalTime)
     }
 
 
