@@ -199,7 +199,9 @@ function pingPongTimeoutFunction (){
     }
 
     if (socket_connected ) {
+        console.log("close the wss socket connection...");
         socket.close()
+        socket = null;
         socket_connected = false;
     }
 
@@ -211,7 +213,7 @@ function pingPongTimeoutFunction (){
             pingPongEnabled = false;
         }
     }
-
+    
     console.log("Start searching interval, trying to connect a new server....");
     serverConnectionError=true
     searchNewServer()
@@ -249,6 +251,7 @@ function createSocket(address, name) {
 
     socket.onopen = function() {
         serverConnectionError = false;
+        socket_connected = true;
 
         $("#serverStatus").html("Connected to " + name);
         sentTimes = [];
