@@ -200,8 +200,11 @@ function pingPongTimeoutFunction (){
 
     if(pingPongEnabled){
         console.log("now stop ping pong..")
-        clearInterval(pingPongInterval)
-        pingPongEnabled = false;
+        if (pingPongInterval){
+            clearInterval(pingPongInterval)
+            pingPongInterval = null;
+            pingPongEnabled = false;
+        }
     }
 
     console.log("Start searching interval, trying to connect a new server....");
@@ -249,6 +252,10 @@ function createSocket(address, name) {
         numNulls = 0
 
         ping()
+        if (! pingPongInterval){
+            clearInterval(pingPongInterval);
+            pingPongInterval = null;
+        }
         pingPongInterval = setInterval(ping, pingPongIntervalTime)
         pingPongEnabled = true;
 
