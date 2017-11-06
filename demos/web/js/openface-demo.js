@@ -167,20 +167,22 @@ function searchNewServer(){
         serverIndex = (currentServerIndex + totalTry) % serverlist.length
         console.log("server Index: " + serverIndex + ". server: " + serverlist[serverIndex] )
 
-
-        window.location.hostname = serverlist[serverIndex]
-        window.localtion.reload();
         redrawPeople();
-        createSocket("wss://" + serverlist[serverIndex] + ":9000", "New");
+        createSocket("wss://" + serverlist[serverIndex] + ":9000", serverlist[serverIndex]);
+        
     }
     if (serverConnectionError){
         console.log("! ! cannot find any available server.");
     }else{
+
+        window.location.hostname = serverlist[serverIndex]
+        // window.localtion.reload();
         currentServerIndex = serverIndex
         console.log("!! find a new server: " + serverlist[currentServerIndex])
         window.location.hostname = serverlist[currentServerIndex]
 
         clearInterval(searchInterval)
+        searchInterval = null;
     }
 }
 function pingPongTimeoutFunction (){
@@ -205,7 +207,9 @@ function pingPongTimeoutFunction (){
     console.log("Start searching interval, trying to connect a new server....");
     serverConnectionError=true
     searchNewServer()
-    //searchInterval = setInterval (searchNewServer, 20000)
+    if (! searchInterval){
+        searchInterval = setInterval (searchNewServer, 5000)
+    }
 
 
 }
@@ -237,6 +241,7 @@ function createSocket(address, name) {
 
     socket.onopen = function() {
         serverConnectionError = false;
+
         $("#serverStatus").html("Connected to " + name);
         sentTimes = [];
         receivedTimes = [];
@@ -310,6 +315,7 @@ function createSocket(address, name) {
         console.log("Error creating WebSocket connection to " + address);
         serverConnectionError=true
         console.log(e);
+        console.log("need to find a new server ...........");
     }
     socket.onclose = function(e) {
         if (e.target == socket) {
