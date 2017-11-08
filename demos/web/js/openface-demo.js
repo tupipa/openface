@@ -242,8 +242,11 @@ function pingPongTimeoutFunction (){
 }
 function createSocket(address, name) {
     if (socket_connected){
-	socket.close(3001);
-	socket = null;
+	if (socket){
+		socket.close(3001);
+		socket = null;
+	}
+	socket_connected = false;
     }
     socket = new WebSocket(address);
     socketName = name;
