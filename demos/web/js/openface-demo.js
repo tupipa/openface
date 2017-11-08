@@ -154,7 +154,11 @@ function sendState() {
     socket.send(JSON.stringify(msg));
 }
 
-function searchNewServer(){
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function searchNewServer(){
     
     var serverIndex = 0
     var totalTry = 0;
@@ -176,6 +180,8 @@ function searchNewServer(){
         createSocket("wss://" + serverlist[serverIndex] + ":9000", serverlist[serverIndex]);
         
         totalTry++
+	await sleep(1000);
+
     }
     if (serverConnectionError){
         console.log("! ! cannot find any available server.");
@@ -186,9 +192,12 @@ function searchNewServer(){
         console.log("!! find a new server: " + serverlist[currentServerIndex])
         window.location.hostname = serverlist[currentServerIndex]
 
-        clearInterval(searchInterval)
+        clearInterval(searchInterval);
         searchInterval = null;
+
     }
+
+
 }
 function pingPongTimeoutFunction (){
 
