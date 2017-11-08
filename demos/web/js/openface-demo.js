@@ -162,16 +162,24 @@ async function searchNewServer(){
     
     var serverIndex = 0
     var totalTry = 0;
+    if (window.location.hostname=='192.168.111.198'){
+        currentServerIndex = 0
+    }
     if (window.location.hostname=='192.168.111.197'){
         currentServerIndex = 1
     }
+    if (window.location.hostname=='lelema.org'){
+        currentServerIndex = 2
+    }
 
     while (serverConnectionError ){
-        if (totalTry >= (serverlist.length * 1000)) {
+        //if (totalTry >= (serverlist.length * 1000)) {
+        if (totalTry >= 1000) {
             break 
         }
         console.log("Now totalTry: " + totalTry)
-        serverIndex = (currentServerIndex + totalTry) % serverlist.length
+        // serverIndex = (currentServerIndex + totalTry) % serverlist.length
+        serverIndex = currentServerIndex
         console.log("server Index: " + serverIndex + ". server: " + serverlist[serverIndex] )
 
         window.location.hostname = serverlist[serverIndex]
