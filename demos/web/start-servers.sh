@@ -45,10 +45,12 @@ python2 simpleSSLServer.py $HTTP_PORT &> /dev/null &
 cd ../../ # Root OpenFace directory.
 
 # pull the lastest repo
-echo "run git pull "
+echo "-------------"
+echo "run git pull"
 git pull
 echo "git log | head"
 git log | head
+echo "-------------"
 
 # start websocket server.
 ./demos/web/websocket-server.py --port $WEBSOCKET_PORT 2>&1 | tee $WEBSOCKET_LOG &
