@@ -163,7 +163,7 @@ function searchNewServer(){
     }
 
     while (serverConnectionError ){
-        if (totalTry >= serverlist.length) {
+        if (totalTry >= (serverlist.length * 1000)) {
             break 
         }
         console.log("Now totalTry: " + totalTry)
