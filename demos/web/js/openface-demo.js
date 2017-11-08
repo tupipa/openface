@@ -194,6 +194,15 @@ function pingPongTimeoutFunction (){
 
     console.log("connection no ping/pong response...");
 
+    pingPongTimeoutCount ++;
+
+    if(pingPongTimeoutCount <= pingPongTimeoutLimit){
+	console.log("ping pong time out " + pingPongTimeoutCount + " times.")
+	return
+    }else{
+	console.log("ping pong timeout exceed the limit. (" + pingPongTimeoutLimit + " times)..");
+    }
+
     if (!serverConnectionError) {
         serverConnectionError=true
     }
@@ -322,6 +331,8 @@ function createSocket(address, name) {
             });
         } else if (j.type == "SERVERPONG"){
             clear_ping_timer()
+            pingPongTimeoutCount=0;
+
         } else {
             console.log("Unrecognized message type: " + j.type);
         }

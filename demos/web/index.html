@@ -240,6 +240,9 @@ limitations under the License.
      var pingPongInterval = null;
      var searchInterval = null;
 
+     var pintPongTimeoutLimit = 10; // once pass the limit, trigger search new servers
+     var pingPongTimeoutCount = 0; // count the time of pingPong timeouts. 
+
      var serverConnectionError = false;
     //  var serverlist = ["localhost", "192.168.111.198", "192.168.111.197"];
      var serverlist = ["192.168.111.198", "192.168.111.197"];
