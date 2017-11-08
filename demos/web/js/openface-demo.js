@@ -220,7 +220,6 @@ function pingPongTimeoutFunction (){
         console.log("close the wss socket connection...");
         socket.close()
         socket = null;
-        socket_connected = false;
     }
 
     if(pingPongEnabled){
@@ -242,6 +241,10 @@ function pingPongTimeoutFunction (){
 
 }
 function createSocket(address, name) {
+    if (socket_connected){
+	socket.close(3001);
+	socket = null;
+    }
     socket = new WebSocket(address);
     socketName = name;
     socket.binaryType = "arraybuffer";
@@ -351,11 +354,22 @@ function createSocket(address, name) {
         serverConnectionError=true
         console.log(e);
         console.log("need to find a new server ...........");
+
+        socket_connected = false;
+
     }
     socket.onclose = function(e) {
+	console.log(e)
+
+	if (e.code == 3001 ){
+		console.log("socket closed manually");
+	}
         if (e.target == socket) {
             $("#serverStatus").html("Disconnected.");
         }
+
+        socket_connected = false;
+
     }
 }
 
